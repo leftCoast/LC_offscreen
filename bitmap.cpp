@@ -24,8 +24,8 @@ bitmap::bitmap(int width,int height,bool alpha) {
 }
 
 
-// Create ourselves as a clone of another bitmap. Ju like all bitmaps, if it doesn't
-// work? We ill have all the check methods working. So you can tell if it didn't make it.
+// Create ourselves as a clone of another bitmap. Just like all bitmaps, if it doesn't
+// work? We still have all the check methods working. So you can tell if it didn't make it.
 bitmap::bitmap(bitmap* aBitmap) {
 
 	byte* theirMap;
@@ -35,7 +35,7 @@ bitmap::bitmap(bitmap* aBitmap) {
 	int	tHeight;
 	bool	tAlpha;
 	
-	mWidth	= 0;															// art off with the andard defaults.
+	mWidth	= 0;															// Start off with the standard defaults.
 	mHeight	= 0;
 	mAlpha	= NULL;
 	mBitmap	= NULL;
@@ -73,9 +73,9 @@ bitmap::~bitmap(void) {
 }
 
 
-// Copy down the bitmap size then allocate the buffer, if possible.
+// Copy down the bitmap size then, if possible, allocate the buffer.
 // This can also be used to reset to different sizes, But it causes
-// all previous data to be lo when called.
+// all previous data to be lost when called.
 bool bitmap::setSize(int width,int height,bool alpha) {
 
 	int numBytes;
@@ -87,8 +87,8 @@ bool bitmap::setSize(int width,int height,bool alpha) {
 	if (mHaveMap && alpha) {										// If we got the RAM and we need an alpha channel..
   		numBytes  = width * height * sizeof(byte);			// Calculate the buffer for alpha channel.
   		if (resizeBuff(numBytes,(byte**)&mAlpha)) {			// If we can also grab the RAM for the alpha channel..
-  			for (int i=0;i<numBytes;i++) {						// Ju to be nice..
-  				mAlpha[i] = 1;											// Default the alpa channel to opaque. (Good default)
+  			for (int i=0;i<numBytes;i++) {						// Just to be nice..
+  				mAlpha[i] = 255;										// Default the alpa channel to opaque. (Good default)
   			}
   			mHaveMap = true;											// We are good to go!
   		} else {															// Else, we could NOT get the RAM for the alpha channel..
@@ -98,7 +98,7 @@ bool bitmap::setSize(int width,int height,bool alpha) {
 	}
 	if (mHaveMap) {													// If we have been a success..
 		mWidth    = width;											// Its this wide.
-		mHeight   = height;											// Ans this tall.
+		mHeight   = height;											// And this tall.
 	}
 	return mHaveMap;													// Return our success. Or failure..
 }
@@ -124,7 +124,7 @@ int bitmap::getWidth(void) { return mWidth; }
 int bitmap::getHeight(void) { return mHeight; }
 
 
-// Set this location to a color. Actually ju a pass
+// Set this location to a color. Actually just a pass
 // through to the color pack version.
 void bitmap::setColor(int x,int y,colorObj* aColor) {
 
@@ -138,7 +138,7 @@ void bitmap::setColor(int x,int y,colorObj* aColor) {
 
 
 // Set this location to a color. This is the method that actually
-// writes to RAM. Hence, everything is sanity checked fir.
+// writes to RAM. Hence, everything is sanity checked first.
 void  bitmap::setColor(int x,int y,RGBpack* aColor) {
 
   int index;
@@ -151,7 +151,7 @@ void  bitmap::setColor(int x,int y,RGBpack* aColor) {
 
 
 // Set this location's alpha channel. This is the method that actually
-// writes to RAM. Hence, everything is sanity checked fir.
+// writes to RAM. Hence, everything is sanity checked first.
 void  bitmap::setAlpha(int x,int y,byte alpha) {
 
   int index;
@@ -163,7 +163,7 @@ void  bitmap::setAlpha(int x,int y,byte alpha) {
 }
 
 
-// Grab a color object out of RAM. We need this fa so, no sanity checking.
+// Grab a color object out of RAM. We need this fast so, no sanity checking.
 // Give bad input? Get undefined output.
 colorObj bitmap::getColor(int x,int y) {
 
@@ -176,7 +176,7 @@ colorObj bitmap::getColor(int x,int y) {
 }
 
 
-// Grab a color pack out of RAM. Again, we need this fa so, no sanity checking.
+// Grab a color pack out of RAM. Again, we need this fast so, no sanity checking.
 // Give bad input? Get bad output.
 RGBpack bitmap::getColorPack(int x,int y) {
 
@@ -197,7 +197,7 @@ byte bitmap::getAlpha(int x,int y) {
 		index = y * mWidth + x;
 		return mAlpha[index];
 	}
-	return 1;
+	return 255;
 }
 
 
@@ -208,3 +208,5 @@ RGBpack* bitmap::getBitmapAddr(void) { return mBitmap; }
 
 // And this one too. Here's the address to our alpha channel buffer.
 byte*  bitmap::getAlphaAddr(void) { return mAlpha; }
+
+
