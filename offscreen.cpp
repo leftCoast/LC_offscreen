@@ -54,7 +54,7 @@ offscreen::~offscreen(void) {
 }
 
 
-// Accept a bitmap, sanity check eveerything. If everything
+// Accept a bitmap, sanity check everything. If everything
 // is good, set up for drawing to it.
 void offscreen::beginDraw(bitmap* inMap,int inOffsetX,int inOffsetY) {
 
