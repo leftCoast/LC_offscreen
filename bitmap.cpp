@@ -1,7 +1,7 @@
 #include "bitmap.h"
 #include "resizeBuff.h"
 #include "colorObj.h"
-#include "debug.h"
+//#include "debug.h"
 
 // Give back an initialzed but empty bitmap.
 bitmap::bitmap(void) {
@@ -46,8 +46,8 @@ bitmap::bitmap(bitmap* aBitmap) {
 			tHeight	= aBitmap->getHeight();							// Save off their height.
 			tAlpha	= aBitmap->getAlphaAddr()!=NULL;				// Save off.. Do they have an alpha channel?
 			if (setSize(tWidth,tHeight,tAlpha)) {					// Ok, lets see if we can allocate one for us?
-				ourMap = (byte*)mBitmap;								// Everything seems fine, point at our map as if its ju as array of bytes.
-				theirMap = (byte*)aBitmap->getBitmapAddr();		// Point at their map as if its ju an array of bytes. Because really, they are.
+				ourMap = (byte*)mBitmap;								// Everything seems fine, point at our map as if its just as array of bytes.
+				theirMap = (byte*)aBitmap->getBitmapAddr();		// Point at their map as if its just an array of bytes. Because really, they are.
 				numBytes  = mWidth * mHeight * sizeof(RGBpack);	// Calculate the number of bytes in our map buffer.
 				for(int i=0;i<numBytes;i++) {							// For every byte..
 					ourMap[i] = theirMap[i];							// Copy theirs into ours.

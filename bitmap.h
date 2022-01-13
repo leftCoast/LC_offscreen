@@ -26,11 +26,12 @@ class bitmap {
 				byte*			getAlphaAddr(void);
 				
   protected:
-      int			mWidth;
-      int			mHeight;
-      bool			mHaveMap;
-      RGBpack*		mBitmap;
-      byte*			mAlpha;
+      
+				int			mWidth;
+				int			mHeight;
+				bool			mHaveMap;
+				RGBpack*		mBitmap;
+				byte*			mAlpha;
 };
 
 
