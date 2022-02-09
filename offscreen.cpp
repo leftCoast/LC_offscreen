@@ -101,7 +101,7 @@ void offscreen::setTextSize(byte inSize)                                        
 void offscreen::setTextWrap(boolean wrap)                                                     	{ mDisplay->setTextWrap(wrap); }
 void offscreen::setFont(const GFXfont* font)                                                  	{ mDisplay->setFont(font); }
 void offscreen::setCursor(int x,int y)                                                        	{ mDisplay->setCursor(gX(x),gY(y)); }
-void offscreen::drawText(char* inText)                                                        	{ mDisplay->print(inText); }
+void offscreen::drawText(const char* inText)                                                    { mDisplay->print(inText); }
 void offscreen::drawChar(int x,int y,char inChar,colorObj* fColor,colorObj* bColor,int size) 	{ mDisplay->drawChar(gX(x),gY(y),inChar,fColor->getColor16(),bColor->getColor16(),size); }
 void offscreen::fillScreen(colorObj* inColor)                                                 	{ mDisplay->fillScreen(inColor->getColor16()); }
 void offscreen::fillRect(int x,int y,int width,int height,colorObj* inColor)                  	{ mDisplay->fillRect(gX(x),gY(y), width, height,inColor->getColor16()); }

@@ -43,7 +43,7 @@ class offscreen : public displayObj {
 	virtual   void  setTextWrap(boolean wrap);
 	virtual   void  setFont(const GFXfont* font);
 	virtual   void  setCursor(int x,int y);
-	virtual   void  drawText(char* inText);
+	virtual   void  drawText(const char* inText);
 	virtual   void  drawChar(int x,int y,char inChar,colorObj* fColor,colorObj* bColor,int size);
 	virtual   void  fillScreen(colorObj* inColor);
 	virtual   void  fillRect(int x,int y,int width,int height,colorObj* inColor);
