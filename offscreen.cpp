@@ -1,5 +1,5 @@
-#include "offscreen.h"
-#include "screen.h"
+#include <offscreen.h>
+#include <screen.h>
 
 
 // ***************************************************************
@@ -114,6 +114,8 @@ void offscreen::drawRoundRect(int x,int y,int width,int height,int radius,colorO
 void offscreen::drawRoundRect(rect* aRect,int radius,colorObj* inColor)                       	{ mDisplay->drawRoundRect(gX(aRect->x),gY(aRect->y),aRect->width,aRect->height,radius,inColor->getColor16()); }
 void offscreen::drawCircle(int x,int y,int diam, colorObj* inColor)                           	{ drawRoundRect(gX(x),gY(y),diam,diam,diam/2,inColor); }
 void offscreen::fillCircle(int x,int y,int diam, colorObj* inColor)                           	{ fillRoundRect(gX(x),gY(y),diam,diam,diam/2,inColor); }
+void offscreen::drawTriangle(point* pt0,point* pt1,point* pt2,colorObj* inColor) 					 { mDisplay->drawTriangle(gX(pt0->x),gX(pt0->y),gX(pt1->x),gX(pt1->y),gX(pt2->x),gX(pt2->y),inColor->getColor16()); }
+void offscreen::fillTriangle(point* pt0,point* pt1,point* pt2,colorObj* inColor)						{ mDisplay->fillTriangle(gX(pt0->x),gX(pt0->y),gX(pt1->x),gX(pt1->y),gX(pt2->x),gX(pt2->y),inColor->getColor16()); }
 void offscreen::drawVLine(int x,int y,int height,colorObj* inColor)                           	{ mDisplay->drawFastVLine(gX(x),gY(y),height,inColor->getColor16()); }
 void offscreen::drawHLine(int x,int y,int width,colorObj* inColor)                            	{ mDisplay->drawFastHLine(gX(x),gY(y),width,inColor->getColor16()); }
 void offscreen::drawLine(int x,int y,int x2,int y2,colorObj* inColor)                         	{ mDisplay->drawLine(gX(x),gY(y),gX(x2),gY(y2),inColor->getColor16()); }
