@@ -1,4 +1,4 @@
-#include <offscreen.h>
+#include "offscreen.h"
 
 
 // ***************************************************************
@@ -23,6 +23,24 @@ mapDisplay::~mapDisplay(void) {  }
 
 
 bool mapDisplay::dispObjBegin(void) { return true; }
+
+
+rect mapDisplay::getTextRect(const char* inText) {
+
+	rect bounds(0,0,0,0);
+	int16_t	bX;
+	int16_t	bY;
+	uint16_t	bW;
+	uint16_t	bH;
+	
+	bX = 0;
+	bY = 0;
+	bW = 0;
+	bH = 0;
+	getTextBounds(inText,getCursorX(),getCursorY(),&bX,&bY,&bW,&bH);
+	bounds.setRect(bX,bY,bW,bH);
+	return bounds;
+}
 
 
 void mapDisplay::drawPixel(int16_t x, int16_t y, uint16_t color) {
@@ -83,6 +101,10 @@ void offscreen::endDraw(void) {
 	if (mDrawing) {			// Have we rerouted drawing calls?
 		screen = oldScreen;	// Undo the screen rerouting.
 		oldScreen = NULL;		// Note this is done.
+		if (mDisplay) {		// We got a display?
+			delete mDisplay;	// dump it.
+			mDisplay = NULL;	// Note it's gone.
+		}
 		mDrawing = false;		// Note that we are no longer rerouting drawing calls.
 	} 
 }
@@ -91,13 +113,13 @@ void offscreen::endDraw(void) {
 // In case someone asks.
 bool offscreen::dispObjBegin(void) { return true; }
 
-
 // The standard pass throughs.
 void offscreen::setRotation(byte inRotation)                                                  	{ mDisplay->setRotation(inRotation); }
 void offscreen::setTextColor(colorObj* inColor)                                               	{ mDisplay->setTextColor(inColor->getColor16()); }
 void offscreen::setTextColor(colorObj* tColor,colorObj* bColor)                               	{ mDisplay->setTextColor(tColor->getColor16(),bColor->getColor16()); }
 void offscreen::setTextSize(byte inSize)                                                      	{ mDisplay->setTextSize(inSize); }
 void offscreen::setTextWrap(boolean wrap)                                                     	{ mDisplay->setTextWrap(wrap); }
+rect offscreen::getTextRect(const char* inText)																	{ return mDisplay->getTextRect(inText); }
 void offscreen::setFont(const GFXfont* font)                                                  	{ mDisplay->setFont(font); }
 void offscreen::setCursor(int x,int y)                                                        	{ mDisplay->setCursor(gX(x),gY(y)); }
 void offscreen::drawText(const char* inText)                                                    { mDisplay->print(inText); }
@@ -113,12 +135,13 @@ void offscreen::drawRoundRect(int x,int y,int width,int height,int radius,colorO
 void offscreen::drawRoundRect(rect* aRect,int radius,colorObj* inColor)                       	{ mDisplay->drawRoundRect(gX(aRect->x),gY(aRect->y),aRect->width,aRect->height,radius,inColor->getColor16()); }
 void offscreen::drawCircle(int x,int y,int diam, colorObj* inColor)                           	{ drawRoundRect(gX(x),gY(y),diam,diam,diam/2,inColor); }
 void offscreen::fillCircle(int x,int y,int diam, colorObj* inColor)                           	{ fillRoundRect(gX(x),gY(y),diam,diam,diam/2,inColor); }
-void offscreen::drawTriangle(point* pt0,point* pt1,point* pt2,colorObj* inColor) 					 { mDisplay->drawTriangle(gX(pt0->x),gX(pt0->y),gX(pt1->x),gX(pt1->y),gX(pt2->x),gX(pt2->y),inColor->getColor16()); }
+void offscreen::drawTriangle(point* pt0,point* pt1,point* pt2,colorObj* inColor) 					{ mDisplay->drawTriangle(gX(pt0->x),gX(pt0->y),gX(pt1->x),gX(pt1->y),gX(pt2->x),gX(pt2->y),inColor->getColor16()); }
 void offscreen::fillTriangle(point* pt0,point* pt1,point* pt2,colorObj* inColor)						{ mDisplay->fillTriangle(gX(pt0->x),gX(pt0->y),gX(pt1->x),gX(pt1->y),gX(pt2->x),gX(pt2->y),inColor->getColor16()); }
 void offscreen::drawVLine(int x,int y,int height,colorObj* inColor)                           	{ mDisplay->drawFastVLine(gX(x),gY(y),height,inColor->getColor16()); }
 void offscreen::drawHLine(int x,int y,int width,colorObj* inColor)                            	{ mDisplay->drawFastHLine(gX(x),gY(y),width,inColor->getColor16()); }
 void offscreen::drawLine(int x,int y,int x2,int y2,colorObj* inColor)                         	{ mDisplay->drawLine(gX(x),gY(y),gX(x2),gY(y2),inColor->getColor16()); }
-void offscreen::drawPixel(int x,int y,colorObj* inColor)                                      	{ mDisplay->drawPixel(gX(x),gY(y),inColor->getColor16()); }
+void offscreen::drawPixel(int x,int y,colorObj* inColor)														{ mDisplay->drawPixel(gX(x),gY(y),inColor->getColor16()); }
+
 
 
  
